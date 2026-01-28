@@ -6,8 +6,10 @@ The pre-requisite for this entire alogirthm or for any audio processing/study is
 Step 1
 i)Read input audio file. There are so many file formats that range from lossy, lossless, compressed, uncompressed, high res. I decided to go with wav format as it is both lossless and uncompressed.This meant that I didn't need any overhead of calling another library to do all the hardwork of converting it into PCM data for me and actually learn how the audio file structure is written internally
 ii)Hence, i looked up the canonical wav file format from this beautiful paper[https://ccrma.stanford.edu/courses/422-winter-2014/projects/WaveFormat/] that lays out the following format of the wav file
-<img width="894" height="822" alt="image" src="https://github.com/user-attachments/assets/b3f7a517-bfb3-4f04-b5b7-b73a358bc36f" />    
+<img width="767" height="688" alt="image" src="https://github.com/user-attachments/assets/8855a6e4-255d-4d54-af39-85aa195e3ab4" />
 <img width="845" height="849" alt="image" src="https://github.com/user-attachments/assets/a9d64673-90b6-4a3f-83cc-e6d1fdf5497e" />
+
+
 The corresponding sample rate, number of channels and all that good stuff were read and processed directly
 iii)I just need the frequency points of the signal and hence, I converted into it mono(Phase is not that needed here, this tradeoff is always very very benefical as processing it as mono rather than stero cuts down the processing time by almost double!). I also couldn't directly work with this sample rate as it is too huge and majorly tank my performance on processing it, thus had to downsample it.
 iv)Given that the wav file supports all the way upto 192khz (and even more now!) and the fact that most audio is sampled at 44100hz, I chose this as the standard and downsampled it to 11025 hz and decimate every 1 in 4th sample
