@@ -1,27 +1,27 @@
+/*
 #include "Spectrogram.h"
 #include <cmath>
-#include <complex>
+#include<iostream>
 #include <cstdint>
 #include <fstream>
-#include <iostream>
 #include <vector>
-using cd = std::complex<double>;
-
-std::vector<std::vector<double>> SpectroCalc(const std::vector<std::vector<cd>> &fftframes) {
+std::vector<std::vector<double>> SpectroCalc(const std::vector<std::vector<cf>> &fftframes) {
     std::vector<std::vector<double> > spectrogram;
     spectrogram.reserve(fftframes.size());
     long long limit = fftframes[0].size() / 2 + 1;
     for (const auto &frame: fftframes) {
         std::vector<double> plot(limit);
         for (long long k = 0; k < limit; ++k) {
-            double re = frame[k].real();
-            double im = frame[k].imag();
+            const cf fram = frame[k];
+            const double re = static_cast<double>(fram.real);
+            const double im = static_cast<double>(fram.imag);
             plot[k] = std::sqrt(re * re + im * im);
         }
         spectrogram.push_back(plot);
     }
     return spectrogram;
 }
+
 std::vector<std::vector<double>> magnitudeConvert(const std::vector<std::vector<double>>& spectrogram) {
     std::vector<std::vector<double>> magniDB;
     magniDB.reserve(spectrogram.size());
@@ -36,13 +36,15 @@ std::vector<std::vector<double>> magnitudeConvert(const std::vector<std::vector<
     return magniDB;
 }
 
-std::vector<std::vector<uint8_t>> normalize(const std::vector<std::vector<double>>& magniLog) {
-     double minDb = std::numeric_limits<double>::max();
-     double maxDb = std::numeric_limits<double>::lowest();
+std::vector<std::vector<uint8_t>> normalize(const std::vector<std::vector<float>>& magniLog) {
+     float minDb = std::numeric_limits<float>::max();
+     float maxDb = std::numeric_limits<float>::lowest();
+
     for (const auto& frame : magniLog) {
         for (const auto& val:frame) {
-            minDb = std::min(minDb,val);
-            maxDb = std::max(maxDb,val);
+
+            minDb = std::min(val,minDb);
+            maxDb = std::max(val,maxDb);
         }
     }
     std::vector<std::vector<uint8_t>> normalisedMap;
@@ -100,3 +102,4 @@ bool writePPM(const std::vector<std::vector<uint8_t>>& heatmap,const char* filen
     outfile.close();
     return true;
 }
+*/
